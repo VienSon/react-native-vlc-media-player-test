@@ -30,7 +30,8 @@ const calcVLCPlayerHeight = (windowWidth,aspetRatio) => {
   return windowWidth * aspetRatio;
 };
 
-const App: () => React$Node = () => {
+const App =()=> {
+  var cameraURL='rtsp://admin:hd543211@baoq2.home.kg:212/cam/realmonitor?channel=1&subtype=0';
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -40,16 +41,17 @@ const App: () => React$Node = () => {
           style={styles.scrollView}>
           {/* <Header title="test"/> */}
           <View >
-              <Text style={styles.heading}>RN VLC Media Player</Text>
+              <Text style={styles.heading}>Camera Viewers</Text>
           </View>
           <View style={styles.body}>
           <VLCPlayer
+            paused={true}
             source={{
               initType: 2,
               hwDecoderEnabled: 1,
               hwDecoderForced: 1,
               uri:
-                'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
+                cameraURL,
               initOptions: [
                 '--no-audio',
                 '--rtsp-tcp',
@@ -60,7 +62,32 @@ const App: () => React$Node = () => {
                 '--realrtsp-caching=150',
               ],
             }}
-            autoplay={true}
+            autoplay={false}
+            autoAspectRatio={true}
+            resizeMode="cover" 
+            // videoAspectRatio={"4:3"}
+            isLive={true}
+            autoReloadLive={true}
+            style={{ height: calcVLCPlayerHeight( Dimensions.get('window').width, 3/4), marginTop: 30}}
+          />
+          <VLCPlayer
+            source={{
+              initType: 2,
+              hwDecoderEnabled: 1,
+              hwDecoderForced: 1,
+              uri:
+                cameraURL,
+              initOptions: [
+                '--no-audio',
+                '--rtsp-tcp',
+                '--network-caching=150',
+                '--rtsp-caching=150',
+                '--no-stats',
+                '--tcp-caching=150',
+                '--realrtsp-caching=150',
+              ],
+            }}
+            autoplay={false}
             autoAspectRatio={true}
             resizeMode="cover" 
             // videoAspectRatio={"4:3"}
